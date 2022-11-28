@@ -5,12 +5,15 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Cliente {
+public class Cliente implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     @Id
     private Long id;

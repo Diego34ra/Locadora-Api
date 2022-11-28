@@ -6,15 +6,17 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Veiculo {
+public class Veiculo implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long codigo;
     @Enumerated(EnumType.STRING)
     private VeiculoTipo veiculoTipo;
@@ -23,6 +25,5 @@ public class Veiculo {
     private String cor;
     private String placa;
     private Double valorDiaria;
-    @ManyToOne
-    private Aluguel aluguel;
+
 }
