@@ -17,13 +17,15 @@ public class Veiculo implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long codigo;
     @Enumerated(EnumType.STRING)
     private VeiculoTipo veiculoTipo;
     private String modelo;
-    private Integer ano;
+    private Long ano;
     private String cor;
+    @Column(unique = true)
     private String placa;
-    private Double valorDiaria;
+    private double valorDiaria;
 
 }
