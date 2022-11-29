@@ -4,13 +4,17 @@ import com.projeto.locadoraApi.dtos.MessageResponseDTO;
 import com.projeto.locadoraApi.dtos.mapper.ClienteMapper;
 import com.projeto.locadoraApi.dtos.mapper.VeiculoMapper;
 import com.projeto.locadoraApi.dtos.request.VeiculoCreateDTO;
+import com.projeto.locadoraApi.dtos.request.VeiculoDTO;
 import com.projeto.locadoraApi.exception.ClienteNotFoundException;
+import com.projeto.locadoraApi.exception.VeiculoNotFoundException;
 import com.projeto.locadoraApi.model.Cliente;
 import com.projeto.locadoraApi.model.Veiculo;
 import com.projeto.locadoraApi.repository.VeiculoRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -31,9 +35,25 @@ public class VeiculoService {
                 .build();
     }
 
-//    public Cliente verificaSeExiste(Long id) throws ClienteNotFoundException {
-//        Cliente cliente = clienteRepository.findById(id)
-//                .orElseThrow(() -> new ClienteNotFoundException(id));
-//        return cliente;
-//    }
+    public List<VeiculoDTO> findAll(){
+        List<Veiculo> veiculoList = veiculoRepository.findAll();
+        return veiculoMapper.toveiculoDTOList(veiculoList);
+    }
+
+    public Veiculo findById(Long id) throws VeiculoNotFoundException {
+        Veiculo veiculo = verificaSeExiste(id);
+        return  veiculo;
+    }
+
+    public Veiculo verificaSeExiste(Long id) throws VeiculoNotFoundException {
+        Veiculo veiculo = veiculoRepository.findById(id)
+                .orElseThrow(() -> new VeiculoNotFoundException(id));
+        return veiculo;
+    }
+
+    public void delete(Long id) throws VeiculoNotFoundException {
+        veiculoRepository.findById(id)
+                .orElseThrow(()-> new VeiculoNotFoundException(id));
+        veiculoRepository.deleteById(id);
+    }
 }
