@@ -4,8 +4,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(HttpStatus.NOT_FOUND)
-public class ClienteNotFoundException extends Exception{
-    public ClienteNotFoundException(Long id) {
-        super("Cliente com id " + id + " não encontrado");
+public class AluguelNotFoundException extends Exception{
+    public AluguelNotFoundException(Long id) {
+        super("Aluguel com id " + id + " não encontrado");
     }
 }

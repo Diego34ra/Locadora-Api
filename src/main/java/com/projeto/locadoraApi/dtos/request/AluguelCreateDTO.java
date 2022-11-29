@@ -9,8 +9,6 @@ import java.util.List;
 @Setter
 public class AluguelCreateDTO {
 
-    private Long id;
-
     private Long cliente_id;
 
     private List<Long> veiculos_id;

@@ -21,7 +21,7 @@ public class ClienteMapper {
         return MODEL_MAPPER.map(cliente,ClienteDTO.class);
     }
 
-    public List<ClienteDTO> toClienteDTOList(List<Cliente> pessoaList) {
-        return pessoaList.stream().map(this::toClienteDTO).collect(Collectors.toList());
+    public List<ClienteDTO> toClienteDTOList(List<Cliente> clienteList) {
+        return clienteList.stream().map(this::toClienteDTO).collect(Collectors.toList());
     }
 }
