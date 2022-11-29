@@ -1,6 +1,8 @@
 package com.projeto.locadoraApi.service;
 
+import com.projeto.locadoraApi.dtos.request.AluguelCreateDTO;
 import com.projeto.locadoraApi.exception.ClienteNotFoundException;
+import com.projeto.locadoraApi.exception.VeiculoNotFoundException;
 import com.projeto.locadoraApi.model.Aluguel;
 import com.projeto.locadoraApi.model.Cliente;
 import com.projeto.locadoraApi.model.Veiculo;
@@ -10,6 +12,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,35 +25,30 @@ public class AluguelService {
     private AluguelRepository aluguelRepository;
 
     @Autowired
-    private ClienteRepository clienteRepository;
-
-    @Autowired
     private ClienteService clienteService;
 
-    public void create(Aluguel aluguel) throws ClienteNotFoundException {
-        salvarAluguelcomCliente(aluguel);
-        salvarAluguelcomVeiculo(aluguel);
+    @Autowired
+    private VeiculoService veiculoService;
+
+    public void create(AluguelCreateDTO aluguelCreateDTO) throws ClienteNotFoundException, VeiculoNotFoundException {
+        Cliente cliente = clienteService.verificaSeExiste(aluguelCreateDTO.getCliente_id());
+        List<Veiculo> veiculoList = new ArrayList<Veiculo>();
+        for(int x = 0; x < aluguelCreateDTO.getVeiculos_id().toArray().length; x ++) {
+            veiculoList.add(veiculoService.verificaSeExiste((Long) aluguelCreateDTO.getVeiculos_id().toArray()[x]));
+        }
+
+        Aluguel aluguel = new Aluguel();
+        aluguel.setId(aluguelCreateDTO.getId());
+        aluguel.setCliente(cliente);
+        aluguel.setVeiculos(veiculoList);
+        aluguel.setValorTotal(aluguelCreateDTO.getValorTotal());
+
+        aluguelRepository.save(aluguel);
+
     }
 
     public List<Aluguel> findAll(){
         return aluguelRepository.findAll();
     }
-
-
-    private void salvarAluguelcomCliente(Aluguel aluguel) throws ClienteNotFoundException {
-        long id = aluguel.getCliente().getId();
-        Cliente cliente = clienteService.verificaSeExiste(id);
-        aluguel.setCliente(cliente);
-        aluguelRepository.save(aluguel);
-    }
-
-    private void salvarAluguelcomVeiculo(Aluguel aluguel) throws ClienteNotFoundException {
-        List<Veiculo> veiculos = aluguel.getVeiculos();
-//        for (int i = 0; i < veiculos.toArray().length; i++){
-//
-//        }
-//        Cliente cliente = clienteService.verificaSeExiste(id);
-        aluguel.setVeiculos(veiculos);
-        aluguelRepository.save(aluguel);
-    }
+    
 }

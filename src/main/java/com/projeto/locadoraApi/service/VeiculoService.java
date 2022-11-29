@@ -26,6 +26,16 @@ public class VeiculoService {
     @Autowired
     private VeiculoMapper veiculoMapper;
 
+    public List<Veiculo> findAll(){
+        List<Veiculo> veiculoList = veiculoRepository.findAll();
+        return veiculoList;
+    }
+
+    public Veiculo findById(Long id) throws VeiculoNotFoundException {
+        Veiculo veiculo = verificaSeExiste(id);
+        return  veiculo;
+    }
+
     public MessageResponseDTO create(Veiculo veiculo){
         Veiculo veiculocreated = veiculoRepository.save(veiculo);
 
@@ -35,25 +45,33 @@ public class VeiculoService {
                 .build();
     }
 
-    public List<VeiculoDTO> findAll(){
-        List<Veiculo> veiculoList = veiculoRepository.findAll();
-        return veiculoMapper.toveiculoDTOList(veiculoList);
+    public MessageResponseDTO update(Long id, Veiculo veiculoUpdate) throws VeiculoNotFoundException {
+        Veiculo veiculo = verificaSeExiste(id);
+
+        veiculo.setVeiculoTipo(veiculoUpdate.getVeiculoTipo());
+        veiculo.setModelo(veiculoUpdate.getModelo());
+        veiculo.setAno(veiculoUpdate.getAno());
+        veiculo.setCor(veiculoUpdate.getCor());
+        veiculo.setPlaca(veiculoUpdate.getPlaca());
+        veiculo.setValorDiaria(veiculoUpdate.getValorDiaria());
+
+        veiculoRepository.save(veiculo);
+        return MessageResponseDTO
+                .builder()
+                .message("Veículo com código " + id + " atualizado")
+                .build();
     }
 
-    public Veiculo findById(Long id) throws VeiculoNotFoundException {
-        Veiculo veiculo = verificaSeExiste(id);
-        return  veiculo;
+
+    public void delete(Long id) throws VeiculoNotFoundException {
+        veiculoRepository.findById(id)
+                .orElseThrow(()-> new VeiculoNotFoundException(id));
+        veiculoRepository.deleteById(id);
     }
 
     public Veiculo verificaSeExiste(Long id) throws VeiculoNotFoundException {
         Veiculo veiculo = veiculoRepository.findById(id)
                 .orElseThrow(() -> new VeiculoNotFoundException(id));
         return veiculo;
-    }
-
-    public void delete(Long id) throws VeiculoNotFoundException {
-        veiculoRepository.findById(id)
-                .orElseThrow(()-> new VeiculoNotFoundException(id));
-        veiculoRepository.deleteById(id);
     }
 }

@@ -31,21 +31,30 @@ public class VeiculoController {
     @PostMapping
     public ResponseEntity<MessageResponseDTO> create(@RequestBody @Valid VeiculoCreateDTO createDTO){
         var veiculoCreate = veiculoMapper.toVeiculoCreate(createDTO);
-        var pessoa = veiculoService.create(veiculoCreate);
-        return ResponseEntity.status(HttpStatus.CREATED).body(pessoa);
+        var veiculo = veiculoService.create(veiculoCreate);
+        return ResponseEntity.status(HttpStatus.CREATED).body(veiculo);
     }
 
     @GetMapping
     public ResponseEntity<List<VeiculoDTO>> findAll(){
-        List<VeiculoDTO> veiculoList = veiculoService.findAll();
-        return ResponseEntity.ok(veiculoList);
+        var veiculoList = veiculoService.findAll();
+        var veiculoListDTO = veiculoMapper.toveiculoDTOList(veiculoList);
+        return ResponseEntity.ok().body(veiculoListDTO);
     }
 
     @GetMapping("{id}")
     public ResponseEntity<VeiculoDTO> findById(@PathVariable Long id) throws VeiculoNotFoundException {
-        Veiculo veiculo = veiculoService.findById(id);
-        VeiculoDTO veiculoDTO = veiculoMapper.toVeiculoDTO(veiculo);
+        var veiculo = veiculoService.findById(id);
+        var veiculoDTO = veiculoMapper.toVeiculoDTO(veiculo);
         return ResponseEntity.ok(veiculoDTO);
+    }
+
+    @PutMapping("{id}")
+    public ResponseEntity<MessageResponseDTO> update(@PathVariable Long id,
+                                                     @RequestBody VeiculoCreateDTO veiculoCreateDTO) throws VeiculoNotFoundException {
+        var veiculoUpdate = veiculoMapper.toVeiculoCreate(veiculoCreateDTO);
+        var message = veiculoService.update(id,veiculoUpdate);
+        return ResponseEntity.ok().body(message);
     }
 
     @DeleteMapping("{id}")
