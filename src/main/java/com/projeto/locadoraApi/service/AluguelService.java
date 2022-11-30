@@ -39,17 +39,16 @@ public class AluguelService {
 
     public MessageResponseDTO create(AluguelCreateDTO aluguelCreateDTO) throws ClienteNotFoundException, VeiculoNotFoundException {
         Cliente cliente = clienteService.verificaSeExiste(aluguelCreateDTO.getCliente_id());
-        List<Veiculo> veiculoList = new ArrayList<Veiculo>();
-        for(int x = 0; x < aluguelCreateDTO.getVeiculos_id().toArray().length; x ++) {
-            veiculoList.add(veiculoService.verificaSeExiste((Long) aluguelCreateDTO.getVeiculos_id().toArray()[x]));
+        
+        List<Veiculo> veiculoList = new ArrayList<>();
+        for(Long id: aluguelCreateDTO.getVeiculos_id()) {
+            veiculoList.add(veiculoService.verificaSeExiste(id));
         }
 
         Aluguel aluguel = aluguelMapper.toAluguelCreate(aluguelCreateDTO);
-        //aluguel.setId(aluguelCreateDTO.getId());
         aluguel.setCliente(cliente);
         aluguel.setVeiculos(veiculoList);
         aluguel.setDataAluguel(LocalDateTime.now());
-        //  aluguel.setDataDevolucao(LocalDateTime.now());
 
         aluguelRepository.save(aluguel);
         return MessageResponseDTO.builder()
@@ -72,22 +71,23 @@ public class AluguelService {
             ClienteNotFoundException,
             VeiculoNotFoundException {
 
-
         Aluguel aluguel = verificaSeExiste(id);
 
         Cliente cliente = clienteService.verificaSeExiste(aluguelUpdate.getCliente_id());
 
-        List<Veiculo> veiculoList = new ArrayList<Veiculo>();
-        for(int x = 0; x < aluguelUpdate.getVeiculos_id().toArray().length; x ++) {
-            veiculoList.add(veiculoService.verificaSeExiste((Long) aluguelUpdate.getVeiculos_id().toArray()[x]));
+        List<Veiculo> veiculoList = new ArrayList<>();
+        for( Long x: aluguelUpdate.getVeiculos_id()) {
+            veiculoList.add(veiculoService.verificaSeExiste(x));
         }
+
+//        for(int x = 0; x < aluguelUpdate.getVeiculos_id().toArray().length; x ++) {
+//            veiculoList.add(veiculoService.verificaSeExiste((Long) aluguelUpdate.getVeiculos_id().toArray()[x]));
+//        }
 
 
 
         aluguel.setVeiculos(veiculoList);
         aluguel.setCliente(cliente);
-        //aluguel.setValorTotal(aluguelUpdate.getValorTotal());
-
         aluguelRepository.save(aluguel);
 
         return MessageResponseDTO
