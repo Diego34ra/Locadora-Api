@@ -15,11 +15,9 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.lang.reflect.Array;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -39,7 +37,7 @@ public class AluguelService {
 
     public MessageResponseDTO create(AluguelCreateDTO aluguelCreateDTO) throws ClienteNotFoundException, VeiculoNotFoundException {
         Cliente cliente = clienteService.verificaSeExiste(aluguelCreateDTO.getCliente_id());
-        
+
         List<Veiculo> veiculoList = new ArrayList<>();
         for(Long id: aluguelCreateDTO.getVeiculos_id()) {
             veiculoList.add(veiculoService.verificaSeExiste(id));
@@ -80,19 +78,13 @@ public class AluguelService {
             veiculoList.add(veiculoService.verificaSeExiste(x));
         }
 
-//        for(int x = 0; x < aluguelUpdate.getVeiculos_id().toArray().length; x ++) {
-//            veiculoList.add(veiculoService.verificaSeExiste((Long) aluguelUpdate.getVeiculos_id().toArray()[x]));
-//        }
-
-
-
         aluguel.setVeiculos(veiculoList);
         aluguel.setCliente(cliente);
         aluguelRepository.save(aluguel);
 
         return MessageResponseDTO
                 .builder()
-                .message("teste")
+                .message("Aluguel com id " + id + " atualizado")
                 .build();
     }
 
@@ -113,7 +105,6 @@ public class AluguelService {
     public Aluguel checarSaida(Long id) throws AluguelNotFoundException {
         Aluguel aluguel = verificaSeExiste(id);
         aluguel.setDataDevolucao(LocalDateTime.now());
-        //aluguel.setValorTotal(AluguelDevolucao.getConta(aluguel));
         Double valor = 0.0;
         for(Veiculo veiculo: aluguel.getVeiculos()) {
             valor += AluguelDevolucao.getConta(aluguel,veiculo.getValorDiaria());

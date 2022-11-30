@@ -1,13 +1,7 @@
 package com.projeto.locadoraApi.service;
 
 import com.projeto.locadoraApi.dtos.MessageResponseDTO;
-import com.projeto.locadoraApi.dtos.mapper.ClienteMapper;
-import com.projeto.locadoraApi.dtos.mapper.VeiculoMapper;
-import com.projeto.locadoraApi.dtos.request.VeiculoCreateDTO;
-import com.projeto.locadoraApi.dtos.request.VeiculoDTO;
-import com.projeto.locadoraApi.exception.ClienteNotFoundException;
 import com.projeto.locadoraApi.exception.VeiculoNotFoundException;
-import com.projeto.locadoraApi.model.Cliente;
 import com.projeto.locadoraApi.model.Veiculo;
 import com.projeto.locadoraApi.repository.VeiculoRepository;
 import lombok.AllArgsConstructor;
@@ -22,9 +16,6 @@ public class VeiculoService {
 
     @Autowired
     private final VeiculoRepository veiculoRepository;
-
-    @Autowired
-    private VeiculoMapper veiculoMapper;
 
     public List<Veiculo> findAll(){
         List<Veiculo> veiculoList = veiculoRepository.findAll();

@@ -1,12 +1,8 @@
 package com.projeto.locadoraApi.service;
 
 import com.projeto.locadoraApi.dtos.MessageResponseDTO;
-import com.projeto.locadoraApi.dtos.mapper.ClienteMapper;
-import com.projeto.locadoraApi.dtos.request.ClienteCreateDTO;
 import com.projeto.locadoraApi.exception.ClienteNotFoundException;
-import com.projeto.locadoraApi.exception.VeiculoNotFoundException;
 import com.projeto.locadoraApi.model.Cliente;
-import com.projeto.locadoraApi.model.Veiculo;
 import com.projeto.locadoraApi.repository.ClienteRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +16,6 @@ public class ClienteService {
 
     @Autowired
     private ClienteRepository clienteRepository;
-
-
 
     public MessageResponseDTO create(Cliente cliente){
         Cliente clienteCreated = clienteRepository.save(cliente);

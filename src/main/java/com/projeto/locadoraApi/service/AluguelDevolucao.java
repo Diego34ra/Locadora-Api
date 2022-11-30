@@ -11,11 +11,6 @@ public class AluguelDevolucao {
         return getConta(aluguel.getDataAluguel(), aluguel.getDataDevolucao(), valorDiaria);
     }
 
-//    private static Double getConta(LocalDateTime aluguel, LocalDateTime devolucao) {
-//        long dias = aluguel.until(devolucao, ChronoUnit.DAYS);
-//        return 1500.00 * (dias + 1);
-//    }
-
     private static Double getConta(LocalDateTime aluguel, LocalDateTime devolucao, Double valorDiaria) {
         long dias = aluguel.until(devolucao, ChronoUnit.DAYS);
         return valorDiaria * (dias + 1);
