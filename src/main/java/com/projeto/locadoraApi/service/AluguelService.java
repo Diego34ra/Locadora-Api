@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Array;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -47,6 +48,8 @@ public class AluguelService {
         //aluguel.setId(aluguelCreateDTO.getId());
         aluguel.setCliente(cliente);
         aluguel.setVeiculos(veiculoList);
+        aluguel.setDataAluguel(LocalDateTime.now());
+        //  aluguel.setDataDevolucao(LocalDateTime.now());
 
         aluguelRepository.save(aluguel);
         return MessageResponseDTO.builder()
@@ -83,7 +86,7 @@ public class AluguelService {
 
         aluguel.setVeiculos(veiculoList);
         aluguel.setCliente(cliente);
-        aluguel.setValorTotal(aluguelUpdate.getValorTotal());
+        //aluguel.setValorTotal(aluguelUpdate.getValorTotal());
 
         aluguelRepository.save(aluguel);
 
@@ -103,6 +106,21 @@ public class AluguelService {
     public Aluguel verificaSeExiste(Long id) throws AluguelNotFoundException {
         Aluguel aluguel = aluguelRepository.findById(id)
                 .orElseThrow(() -> new AluguelNotFoundException(id));
+        return aluguel;
+    }
+
+
+    public Aluguel checarSaida(Long id) throws AluguelNotFoundException {
+        Aluguel aluguel = verificaSeExiste(id);
+        aluguel.setDataDevolucao(LocalDateTime.now());
+        //aluguel.setValorTotal(AluguelDevolucao.getConta(aluguel));
+        Double valor = 0.0;
+        for(Veiculo veiculo: aluguel.getVeiculos()) {
+            valor += AluguelDevolucao.getConta(aluguel,veiculo.getValorDiaria());
+        }
+
+        aluguel.setValorTotal(valor);
+        aluguelRepository.save(aluguel);
         return aluguel;
     }
     

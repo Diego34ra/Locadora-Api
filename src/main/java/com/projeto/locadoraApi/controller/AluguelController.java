@@ -34,6 +34,12 @@ public class AluguelController {
         return ResponseEntity.status(HttpStatus.CREATED).body(message);
     }
 
+    @PostMapping("{id}")
+    public ResponseEntity<Aluguel> devolucao(@PathVariable Long id) throws AluguelNotFoundException {
+        Aluguel aluguel = aluguelService.checarSaida(id);
+        return ResponseEntity.ok().body(aluguel);
+    }
+
     @GetMapping
     public ResponseEntity<List<Aluguel>> findAll(){
         var aluguelList = aluguelService.findAll();

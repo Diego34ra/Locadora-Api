@@ -12,7 +12,5 @@ public class AluguelCreateDTO {
     private Long cliente_id;
 
     private List<Long> veiculos_id;
-    //private LocalDate dataAluguel;
-    //private LocalDate dataDevolucao;
-    private Double valorTotal;
+
 }
