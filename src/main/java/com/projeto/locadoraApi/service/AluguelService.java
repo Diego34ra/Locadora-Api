@@ -10,7 +10,6 @@ import com.projeto.locadoraApi.model.Aluguel;
 import com.projeto.locadoraApi.model.Cliente;
 import com.projeto.locadoraApi.model.Veiculo;
 import com.projeto.locadoraApi.repository.AluguelRepository;
-import com.projeto.locadoraApi.repository.ClienteRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
