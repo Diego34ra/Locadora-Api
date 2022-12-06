@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @AllArgsConstructor
@@ -22,12 +23,18 @@ public class VeiculoService {
         return veiculoList;
     }
 
-    public Veiculo findById(Long id) throws VeiculoNotFoundException {
+    public Veiculo findById(String id) throws VeiculoNotFoundException {
         Veiculo veiculo = verificaSeExiste(id);
         return  veiculo;
     }
 
+    private static String getUUID() {
+        return UUID.randomUUID().toString().replace("-", "");
+    }
+
     public MessageResponseDTO create(Veiculo veiculo){
+        String uuid = getUUID();
+        veiculo.setCodigo(uuid);
         Veiculo veiculocreated = veiculoRepository.save(veiculo);
 
         return MessageResponseDTO
@@ -36,7 +43,7 @@ public class VeiculoService {
                 .build();
     }
 
-    public MessageResponseDTO update(Long id, Veiculo veiculoUpdate) throws VeiculoNotFoundException {
+    public MessageResponseDTO update(String id, Veiculo veiculoUpdate) throws VeiculoNotFoundException {
         Veiculo veiculo = verificaSeExiste(id);
 
         veiculo.setVeiculoTipo(veiculoUpdate.getVeiculoTipo());
@@ -54,13 +61,13 @@ public class VeiculoService {
     }
 
 
-    public void delete(Long id) throws VeiculoNotFoundException {
+    public void delete(String id) throws VeiculoNotFoundException {
         veiculoRepository.findById(id)
                 .orElseThrow(()-> new VeiculoNotFoundException(id));
         veiculoRepository.deleteById(id);
     }
 
-    public Veiculo verificaSeExiste(Long id) throws VeiculoNotFoundException {
+    public Veiculo verificaSeExiste(String id) throws VeiculoNotFoundException {
         Veiculo veiculo = veiculoRepository.findById(id)
                 .orElseThrow(() -> new VeiculoNotFoundException(id));
         return veiculo;

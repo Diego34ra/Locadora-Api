@@ -45,7 +45,7 @@ public class ClienteController {
 
     @GetMapping("{id}")
     @ApiOperation("Buscar um cliente")
-    public ResponseEntity<ClienteDTO> findById(@PathVariable Long id) throws ClienteNotFoundException {
+    public ResponseEntity<ClienteDTO> findById(@PathVariable String id) throws ClienteNotFoundException {
         var cliente = clienteService.findById(id);
         var clienteDTO = clienteMapper.toClienteDTO(cliente);
         return ResponseEntity.ok().body(clienteDTO);
@@ -53,7 +53,7 @@ public class ClienteController {
 
     @PutMapping("{id}")
     @ApiOperation("Atualizar cliente")
-    public ResponseEntity<MessageResponseDTO> update(@PathVariable Long id,
+    public ResponseEntity<MessageResponseDTO> update(@PathVariable String id,
                                                      @RequestBody ClienteCreateDTO clienteCreateDTO) throws ClienteNotFoundException {
         var clienteUpdate = clienteMapper.toClienteCreate(clienteCreateDTO);
         var message = clienteService.update(id,clienteUpdate);
@@ -63,7 +63,7 @@ public class ClienteController {
     @DeleteMapping("{id}")
     @ApiOperation("Deletar cliente")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable Long id) throws ClienteNotFoundException {
+    public void delete(@PathVariable String id) throws ClienteNotFoundException {
         clienteService.delete(id);
     }
 }

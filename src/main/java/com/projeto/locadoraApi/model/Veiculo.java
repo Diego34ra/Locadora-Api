@@ -17,8 +17,8 @@ public class Veiculo implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long codigo;
+    @Column(length = 40)
+    private String codigo;
     @Enumerated(EnumType.STRING)
     private VeiculoTipo veiculoTipo;
     private String modelo;

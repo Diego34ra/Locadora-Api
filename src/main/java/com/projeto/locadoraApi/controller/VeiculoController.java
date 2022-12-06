@@ -45,7 +45,7 @@ public class VeiculoController {
 
     @GetMapping("{id}")
     @ApiOperation("Buscar um veículo")
-    public ResponseEntity<VeiculoDTO> findById(@PathVariable Long id) throws VeiculoNotFoundException {
+    public ResponseEntity<VeiculoDTO> findById(@PathVariable String id) throws VeiculoNotFoundException {
         var veiculo = veiculoService.findById(id);
         var veiculoDTO = veiculoMapper.toVeiculoDTO(veiculo);
         return ResponseEntity.ok(veiculoDTO);
@@ -53,7 +53,7 @@ public class VeiculoController {
 
     @PutMapping("{id}")
     @ApiOperation("Atualizar veículo")
-    public ResponseEntity<MessageResponseDTO> update(@PathVariable Long id,
+    public ResponseEntity<MessageResponseDTO> update(@PathVariable String id,
                                                      @RequestBody VeiculoCreateDTO veiculoCreateDTO) throws VeiculoNotFoundException {
         var veiculoUpdate = veiculoMapper.toVeiculoCreate(veiculoCreateDTO);
         var message = veiculoService.update(id,veiculoUpdate);
@@ -63,7 +63,7 @@ public class VeiculoController {
     @DeleteMapping("{id}")
     @ApiOperation("Deletar veículo")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable Long id) throws VeiculoNotFoundException {
+    public void delete(@PathVariable String id) throws VeiculoNotFoundException {
         veiculoService.delete(id);
     }
 

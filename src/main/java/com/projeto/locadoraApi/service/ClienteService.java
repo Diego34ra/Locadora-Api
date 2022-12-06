@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @AllArgsConstructor
@@ -17,7 +18,14 @@ public class ClienteService {
     @Autowired
     private ClienteRepository clienteRepository;
 
+
+    private static String getUUID() {
+        return UUID.randomUUID().toString().replace("-", "");
+    }
+
     public MessageResponseDTO create(Cliente cliente){
+        String uuid = getUUID();
+        cliente.setId(uuid);
         Cliente clienteCreated = clienteRepository.save(cliente);
         return MessageResponseDTO
                 .builder()
@@ -29,18 +37,18 @@ public class ClienteService {
         List<Cliente> clienteList = clienteRepository.findAll();
         return clienteList;
     }
-    public Cliente findById(Long id) throws ClienteNotFoundException {
+    public Cliente findById(String id) throws ClienteNotFoundException {
         Cliente cliente = verificaSeExiste(id);
         return cliente;
     }
 
-    public void delete(Long id) throws ClienteNotFoundException {
+    public void delete(String id) throws ClienteNotFoundException {
         clienteRepository.findById(id)
                 .orElseThrow(() -> new ClienteNotFoundException(id));
         clienteRepository.deleteById(id);
     }
 
-    public MessageResponseDTO update(Long id, Cliente clienteUpdate) throws ClienteNotFoundException {
+    public MessageResponseDTO update(String id, Cliente clienteUpdate) throws ClienteNotFoundException {
         Cliente cliente = verificaSeExiste(id);
 
         cliente.setCpf(clienteUpdate.getCpf());
@@ -59,7 +67,7 @@ public class ClienteService {
 
 
 
-    public Cliente verificaSeExiste(Long id) throws ClienteNotFoundException{
+    public Cliente verificaSeExiste(String id) throws ClienteNotFoundException{
         Cliente cliente = clienteRepository.findById(id)
                 .orElseThrow(() -> new ClienteNotFoundException(id));
         return cliente;

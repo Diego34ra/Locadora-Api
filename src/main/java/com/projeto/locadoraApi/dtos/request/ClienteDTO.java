@@ -15,7 +15,7 @@ import javax.validation.constraints.NotEmpty;
 @NoArgsConstructor
 public class ClienteDTO {
 
-    private Long id;
+    private String id;
 
     @NotEmpty
     @CPF

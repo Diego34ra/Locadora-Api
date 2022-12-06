@@ -38,7 +38,7 @@ public class AluguelService {
         Cliente cliente = clienteService.verificaSeExiste(aluguelCreateDTO.getCliente_id());
 
         List<Veiculo> veiculoList = new ArrayList<>();
-        for(Long id: aluguelCreateDTO.getVeiculos_id()) {
+        for(String id: aluguelCreateDTO.getVeiculos_id()) {
             veiculoList.add(veiculoService.verificaSeExiste(id));
         }
 
@@ -73,7 +73,7 @@ public class AluguelService {
         Cliente cliente = clienteService.verificaSeExiste(aluguelUpdate.getCliente_id());
 
         List<Veiculo> veiculoList = new ArrayList<>();
-        for( Long x: aluguelUpdate.getVeiculos_id()) {
+        for( String x: aluguelUpdate.getVeiculos_id()) {
             veiculoList.add(veiculoService.verificaSeExiste(x));
         }
 

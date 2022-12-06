@@ -14,8 +14,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 public class VeiculoDTO {
 
-    private Long codigo;
-
+    private String codigo;
     @Enumerated(EnumType.STRING)
     private VeiculoTipo veiculoTipo;
     private String modelo;

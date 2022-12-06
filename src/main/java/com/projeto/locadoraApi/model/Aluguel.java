@@ -24,7 +24,6 @@ public class Aluguel implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @OneToOne
-    @JoinColumn(referencedColumnName = "id")
     private Cliente cliente;
     @OneToMany
     private List<Veiculo> veiculos;
