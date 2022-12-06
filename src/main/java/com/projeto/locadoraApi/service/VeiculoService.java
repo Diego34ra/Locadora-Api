@@ -47,7 +47,7 @@ public class VeiculoService {
         Veiculo veiculo = verificaSeExiste(id);
 
         veiculo.setVeiculoTipo(veiculoUpdate.getVeiculoTipo());
-        veiculo.setModelo(veiculoUpdate.getModelo());
+        veiculo.setMarca(veiculoUpdate.getMarca());
         veiculo.setAno(veiculoUpdate.getAno());
         veiculo.setCor(veiculoUpdate.getCor());
         veiculo.setPlaca(veiculoUpdate.getPlaca());

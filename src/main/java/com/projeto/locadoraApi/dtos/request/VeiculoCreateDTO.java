@@ -16,7 +16,7 @@ public class VeiculoCreateDTO {
     @Enumerated(EnumType.STRING)
     private VeiculoTipo veiculoTipo;
     @NotEmpty
-    private String modelo;
+    private String marca;
     private Long ano;
     @NotEmpty
     private String cor;

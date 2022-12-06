@@ -17,7 +17,7 @@ public class VeiculoDTO {
     private String codigo;
     @Enumerated(EnumType.STRING)
     private VeiculoTipo veiculoTipo;
-    private String modelo;
+    private String marca;
     private Long ano;
     private String cor;
     @Column(unique = true)
